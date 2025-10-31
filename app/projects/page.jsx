@@ -55,7 +55,7 @@ const ProjectsPage = () => {
             <div className="space-y-4">
               {items.map((proj) => (
                 <Link
-                  href={`/learn/${proj.id}`}
+                  href={`/projects/${proj.id}`}
                   key={proj.id}
                   className="block border border-gray-200 rounded-xl p-4 hover:bg-gray-50 transition-all"
                 >

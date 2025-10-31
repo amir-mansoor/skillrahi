@@ -2,15 +2,35 @@
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabaseclient";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useAuth } from "../context/AuthContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Header = () => {
-  const { profile, setUser } = useAuth();
+  const { user, profile, setProfile, setUser } = useAuth();
+  const router = useRouter();
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    setUser(null);
+    try {
+      // Sign out from Supabase Auth
+      await supabase.auth.signOut();
+
+      // Clear local context state
+      setUser(null);
+      setProfile(null);
+
+      // redirect to homepage
+      router.push("/");
+    } catch (err) {
+      console.error("Logout failed:", err.message);
+    }
   };
 
   return (
@@ -50,15 +70,28 @@ const Header = () => {
         </nav>
 
         {/* Auth Section */}
-        {profile ? (
+        {user ? (
           <div className="flex items-center gap-3">
-            <span className="text-gray-700">👋 {profile.name}</span>
-            <Button
-              onClick={handleLogout}
-              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
-            >
-              Logout
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger>{profile.name}</DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Link href="/dashboard">Dashboard</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>Billing</DropdownMenuItem>
+                <DropdownMenuItem>Team</DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Button
+                    onClick={handleLogout}
+                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg cursor-pointer"
+                  >
+                    Logout
+                  </Button>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         ) : (
           <Button

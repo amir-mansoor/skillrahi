@@ -4,47 +4,43 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseclient";
 import { useParams } from "next/navigation";
 import ReactMarkdown from "react-markdown";
-import { Button } from "@/components/ui/button";
 import { useAuth } from "@/app/context/AuthContext";
+import { Button } from "@/components/ui/button";
 
-export default function LearnDetailPage() {
+export default function ProjectDetail() {
   const { id } = useParams();
   const { user } = useAuth();
-
-  const [lesson, setLesson] = useState(null);
+  const [project, setProject] = useState(null);
   const [status, setStatus] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [initialized, setInitialized] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [initialized, setInitialized] = useState(false); // ✅ prevent re-run
 
   useEffect(() => {
-    if (!id || !user || initialized) return;
+    if (!id || !user || initialized) return; // ✅ skip reruns
     setInitialized(true);
 
-    const fetchLessonAndProgress = async () => {
-      // 🟢 Fetch lesson
-      const { data: lessonData, error: lessonError } = await supabase
-        .from("learn")
+    const fetchData = async () => {
+      // 🟢 1. Fetch project
+      const { data: projectData, error: projectError } = await supabase
+        .from("projects")
         .select("*")
         .eq("id", id)
         .single();
 
-      if (lessonError) {
-        console.error("Error fetching lesson:", lessonError.message);
-        setLoading(false);
+      if (projectError) {
+        console.error("Error fetching project:", projectError.message);
         return;
       }
 
-      setLesson(lessonData);
-      setLoading(false);
+      setProject(projectData);
 
-      // 🟢 Fetch or initialize progress
+      // 🟢 2. Fetch or insert progress
       const { data: progressData, error: progressError } = await supabase
         .from("user_progress")
         .select("status")
         .eq("user_id", user.id)
         .eq("item_id", id)
-        .eq("type", "learn")
+        .eq("type", "project")
         .maybeSingle();
 
       if (progressError) console.error(progressError.message);
@@ -52,14 +48,14 @@ export default function LearnDetailPage() {
       if (progressData) {
         setStatus(progressData.status);
       } else {
-        // ✅ Create "started" progress entry safely
+        // ✅ Safe upsert instead of insert
         const { error: insertError } = await supabase
           .from("user_progress")
           .upsert(
             {
               user_id: user.id,
               item_id: id,
-              type: "learn",
+              type: "project",
               status: "started",
             },
             { onConflict: "user_id,item_id,type" }
@@ -70,69 +66,55 @@ export default function LearnDetailPage() {
       }
     };
 
-    fetchLessonAndProgress();
+    fetchData();
   }, [id, user, initialized]);
 
   // 🟢 Mark as Complete
   const handleMarkComplete = async () => {
-    if (!user) return alert("Please login to save progress.");
-    setSaving(true);
+    if (!user) {
+      alert("Please login to save progress.");
+      return;
+    }
+
+    setLoading(true);
 
     const { error } = await supabase.from("user_progress").upsert(
       {
         user_id: user.id,
         item_id: id,
-        type: "learn",
+        type: "project",
         status: "completed",
       },
       { onConflict: "user_id,item_id,type" }
     );
 
-    setSaving(false);
+    setLoading(false);
+
     if (error) {
       console.error("Error saving progress:", error.message);
-      return alert("Something went wrong while saving progress.");
+      alert("Something went wrong while saving progress.");
+      return;
     }
 
     setStatus("completed");
   };
 
-  if (loading)
-    return (
-      <div className="flex justify-center items-center h-[70vh] text-gray-600">
-        Loading lesson...
-      </div>
-    );
-
-  if (!lesson)
-    return (
-      <p className="text-center py-20 text-gray-500">
-        Lesson not found or has been removed.
-      </p>
-    );
+  if (!project)
+    return <p className="text-center py-20 text-gray-500">Loading...</p>;
 
   return (
     <section className="px-6 py-20 max-w-3xl mx-auto">
-      {/* Title */}
-      <h1 className="text-4xl font-bold text-gray-900 mb-3">{lesson.title}</h1>
-
-      {/* Meta Info */}
+      <h1 className="text-4xl font-bold text-gray-900 mb-3">{project.title}</h1>
       <p className="text-gray-500 mb-6">
-        Category:{" "}
-        <span className="font-medium text-gray-700">{lesson.category}</span> |{" "}
-        Difficulty:{" "}
-        <span className="font-medium text-gray-700">{lesson.difficulty}</span>
+        Category: {project.category} | Difficulty: {project.difficulty}
       </p>
 
-      {/* Short Description */}
-      <p className="text-gray-700 mb-8 leading-relaxed">{lesson.description}</p>
+      <p className="text-gray-700 mb-8">{project.description}</p>
 
-      {/* Markdown Content */}
       <article className="prose prose-blue max-w-none mb-10">
-        <ReactMarkdown>{lesson.content}</ReactMarkdown>
+        <ReactMarkdown>{project.content}</ReactMarkdown>
       </article>
 
-      {/* Progress Button */}
       {status === "completed" ? (
         <Button disabled className="bg-green-600 text-white cursor-pointer">
           ✅ Completed
@@ -140,10 +122,10 @@ export default function LearnDetailPage() {
       ) : (
         <Button
           onClick={handleMarkComplete}
-          disabled={saving}
+          disabled={loading}
           className="bg-blue-600 hover:bg-blue-700 text-white cursor-pointer"
         >
-          {saving ? "Saving..." : "Mark as Complete"}
+          {loading ? "Saving..." : "Mark as Complete"}
         </Button>
       )}
     </section>
