@@ -16,8 +16,22 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "SkillRahi - Learn To Code For Free",
-  description: "Learn code for free. Pakistan number 1 platform",
+  title: {
+    default: "SkillRahi – Learn. Build. Grow.",
+    template: "%s | SkillRahi",
+  },
+  description:
+    "A digital learning hub for Pakistani students. Learn coding, freelancing, and practical projects for free.",
+  keywords: [
+    "SkillRahi",
+    "Pakistan students",
+    "learn coding free",
+    "freelancing Pakistan",
+    "digital skills",
+  ],
+  authors: [{ name: "Qazi", url: "https://skillrahi.vercel.app" }],
+  creator: "Qazi",
+  metadataBase: new URL("https://skillrahi.vercel.app"),
 };
 
 export default function RootLayout({ children }) {

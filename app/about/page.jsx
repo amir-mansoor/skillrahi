@@ -1,5 +1,10 @@
 import { Heart, Target, Users } from "lucide-react";
 
+export const metadata = {
+  title: "About SkillRahi",
+  description: "Making digital learning easier for  students.",
+};
+
 const AboutPage = () => {
   return (
     <div className="max-w-4xl mx-auto mt-20 px-6 py-12">

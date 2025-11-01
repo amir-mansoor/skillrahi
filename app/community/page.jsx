@@ -1,6 +1,12 @@
 import React from "react";
 import { Users, MessageSquare, Trophy, Rocket } from "lucide-react";
 
+export const metadata = {
+  title: "Community",
+  description:
+    "Join the SkillRahi Community. Meet other learners, get help fast, share your projects, and grow your digital skills ",
+};
+
 const CommunityPage = () => {
   return (
     <div className="max-w-5xl mx-auto mt-20 px-6 py-12">
