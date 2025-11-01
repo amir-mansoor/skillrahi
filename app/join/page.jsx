@@ -7,10 +7,12 @@ import { useState } from "react";
 import { supabase } from "@/lib/supabaseclient";
 import AlertComponent from "../components/Alert";
 import { toast } from "sonner";
+import { useAuth } from "../context/AuthContext";
 
 export default function JoinPage() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const { profile } = useAuth();
+  const [name, setName] = useState(profile.name || "");
+  const [email, setEmail] = useState(profile.email || "");
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState({ message: "", status: "" });
 

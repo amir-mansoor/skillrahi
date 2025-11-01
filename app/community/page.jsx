@@ -17,16 +17,16 @@ const CommunityPage = () => {
         </h1>
         <p className="text-gray-600 text-lg mt-4 max-w-2xl mx-auto leading-relaxed">
           Meet other learners, get help fast, share your projects, and grow your
-          digital skills — together from Pakistan 🇵🇰.
+          digital skills.
         </p>
 
         <a
-          href="https://discord.gg/"
+          href="https://www.facebook.com/share/g/1B5e4Y4cSp/"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-block mt-8 bg-indigo-600 text-white px-8 py-3 rounded-xl font-semibold text-lg shadow-md hover:bg-indigo-700 transition-all"
         >
-          💬 Join our Discord
+          💬 Join our Group
         </a>
       </div>
 

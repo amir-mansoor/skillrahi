@@ -5,8 +5,8 @@ export default function Footer() {
         <p className="font-semibold text-gray-800 text-lg">
           Skill<span className="text-yellow-500">Rahi</span>
         </p>
-        <p className="mt-2">Learn. Build. Earn — together from Pakistan 🇵🇰</p>
-        <div className="mt-4 flex justify-center space-x-6">
+        <p className="mt-2">Learn. Build. Earn — together</p>
+        {/* <div className="mt-4 flex justify-center space-x-6">
           <a
             href="https://discord.gg/skillrahi"
             className="text-blue-600 hover:underline"
@@ -27,7 +27,7 @@ export default function Footer() {
           >
             Contact
           </a>
-        </div>
+        </div> */}
         <p className="mt-6 text-sm text-gray-500">
           © {new Date().getFullYear()} SkillRahi. All rights reserved.
         </p>
