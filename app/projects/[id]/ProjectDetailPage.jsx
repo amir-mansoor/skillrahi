@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import { useAuth } from "@/app/context/AuthContext";
 import { Button } from "@/components/ui/button";
+import remarkGfm from "remark-gfm";
 
 const ProjectDetailPage = ({ project }) => {
   const { id } = useParams();
@@ -98,7 +99,9 @@ const ProjectDetailPage = ({ project }) => {
       <p className="text-gray-700 mb-8">{project.description}</p>
 
       <article className="prose prose-blue max-w-none mb-10">
-        <ReactMarkdown>{project.content}</ReactMarkdown>
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          {project.content}
+        </ReactMarkdown>
       </article>
 
       {status === "completed" ? (

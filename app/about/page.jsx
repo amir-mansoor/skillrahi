@@ -65,7 +65,7 @@ const AboutPage = () => {
           improve the platform.
         </p>
         <a
-          href="mailto:skillrahi@gmail.com"
+          href="mailto:qazimansor89@gmail.com"
           className="inline-block mt-6 bg-indigo-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-indigo-700 transition-all"
         >
           💌 Contact Us

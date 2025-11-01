@@ -79,24 +79,6 @@ const ProjectsPage = () => {
           </div>
         ))}
       </div>
-
-      {/* Motivation Section */}
-      <div className="text-center mt-20">
-        <h2 className="text-3xl font-bold text-gray-900">
-          💪 Keep Building. Keep Growing.
-        </h2>
-        <p className="text-gray-600 mt-3">
-          Share your project links in our community — get feedback, help others,
-          and inspire new learners!
-        </p>
-        <a
-          href="https://discord.gg/skillrahi"
-          target="_blank"
-          className="inline-block mt-6 bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-all"
-        >
-          Join Discord Community
-        </a>
-      </div>
     </div>
   );
 };

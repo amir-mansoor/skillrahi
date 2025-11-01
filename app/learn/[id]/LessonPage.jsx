@@ -4,8 +4,14 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseclient";
 import { useParams } from "next/navigation";
 import ReactMarkdown from "react-markdown";
+import "highlight.js/styles/github-dark.min.css";
+import rehypeHighlight from "rehype-highlight";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/app/context/AuthContext";
+import remarkGfm from "remark-gfm";
+
+const rehypeHighlightWithAutoDetect = (options) =>
+  rehypeHighlight({ ...options, detect: true });
 
 const LessonPage = ({ lesson }) => {
   const { id } = useParams();
@@ -105,7 +111,12 @@ const LessonPage = ({ lesson }) => {
 
       {/* Markdown Content */}
       <article className="prose prose-blue max-w-none mb-10">
-        <ReactMarkdown>{lesson.content}</ReactMarkdown>
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          rehypePlugins={[rehypeHighlightWithAutoDetect]}
+        >
+          {lesson.content}
+        </ReactMarkdown>
       </article>
 
       {/* Progress Button */}
