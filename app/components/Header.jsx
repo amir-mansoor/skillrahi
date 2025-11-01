@@ -73,7 +73,7 @@ const Header = () => {
         {user ? (
           <div className="flex items-center gap-3">
             <DropdownMenu>
-              <DropdownMenuTrigger>{profile.name}</DropdownMenuTrigger>
+              <DropdownMenuTrigger>{profile?.name}</DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />

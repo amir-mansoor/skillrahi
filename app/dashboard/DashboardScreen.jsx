@@ -1,22 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { supabase } from "@/lib/supabaseclient";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+
 import { Loader2, BookOpen, FolderOpen, Edit } from "lucide-react";
+import { useUserProgress } from "../hooks/useUserProgress";
+import EditProfileDialog from "./components/EditProfileDialog";
 
 const DashboardScreen = () => {
   const { user, profile, loading, setProfile } = useAuth();
@@ -28,77 +22,14 @@ const DashboardScreen = () => {
   });
   const [saving, setSaving] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-  const [progress, setProgress] = useState({ projects: [], learn: [] });
-  const [progressLoading, setProgressLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchProgress = async () => {
-      if (!user?.id) return;
-      setProgressLoading(true);
-
-      // 1️⃣ Fetch user progress
-      const { data: progressData, error } = await supabase
-        .from("user_progress")
-        .select("item_id, type, status, updated_at")
-        .eq("user_id", user.id);
-
-      if (error) {
-        console.error("Error fetching progress:", error);
-        setProgressLoading(false);
-        return;
-      }
-
-      // 2️⃣ Separate by type
-      const projectIds = progressData
-        .filter((i) => i.type === "project")
-        .map((i) => i.item_id);
-
-      const learnIds = progressData
-        .filter((i) => i.type === "learn")
-        .map((i) => i.item_id);
-
-      // 3️⃣ Fetch titles from both tables
-      const [projectsRes, learnRes] = await Promise.all([
-        projectIds.length
-          ? supabase.from("projects").select("id, title").in("id", projectIds)
-          : { data: [] },
-        learnIds.length
-          ? supabase.from("learn").select("id, title").in("id", learnIds)
-          : { data: [] },
-      ]);
-
-      // 4️⃣ Merge titles back with progress data
-      const projects = progressData
-        .filter((i) => i.type === "project")
-        .map((p) => ({
-          ...p,
-          title:
-            projectsRes.data?.find((proj) => proj.id === p.item_id)?.title ||
-            "Untitled Project",
-        }));
-
-      const learn = progressData
-        .filter((i) => i.type === "learn")
-        .map((l) => ({
-          ...l,
-          title:
-            learnRes.data?.find((lesson) => lesson.id === l.item_id)?.title ||
-            "Untitled Lesson",
-        }));
-
-      setProgress({ projects, learn });
-      setProgressLoading(false);
-    };
-
-    fetchProgress();
-  }, [user]);
+  const { progress, loading: progressLoading } = useUserProgress();
 
   const handleSave = async () => {
     setSaving(true);
     setErrorMsg("");
 
     try {
-      // 1️⃣ Update custom `users` table
+      // 1️⃣ Update custom users table
       const { error: dbError } = await supabase
         .from("users")
         .update({
@@ -109,21 +40,25 @@ const DashboardScreen = () => {
 
       if (dbError) throw dbError;
 
-      // 2️⃣ Update Supabase Auth email/password
-      const updates = {};
-      if (formData.email && formData.email !== user.email)
-        updates.email = formData.email;
-      if (formData.password) updates.password = formData.password;
-
-      console.log(updates);
-
-      if (Object.keys(updates).length > 0) {
-        const { error: authError } = await supabase.auth.updateUser(updates);
-
-        if (authError) throw authError;
+      // 2️⃣ Update Supabase Auth (email only)
+      if (formData.email && formData.email !== user.email) {
+        const { error: emailError } = await supabase.auth.updateUser({
+          email: formData.email,
+        });
+        if (emailError) throw emailError;
+        alert("Email updated! You might need to verify and re-login.");
       }
 
-      // 3️⃣ Update local context state
+      // 3️⃣ Update password separately (optional)
+      if (formData.password) {
+        const { error: passError } = await supabase.auth.updateUser({
+          password: formData.password,
+        });
+        if (passError) throw passError;
+        alert("Password updated successfully!");
+      }
+
+      // 4️⃣ Update local profile context
       setProfile({
         ...profile,
         name: formData.name,
@@ -132,7 +67,7 @@ const DashboardScreen = () => {
 
       setOpen(false);
     } catch (err) {
-      console.error("Update error:", err.message);
+      console.error(err);
       setErrorMsg(err.message);
     } finally {
       setSaving(false);
@@ -186,14 +121,14 @@ const DashboardScreen = () => {
                 : "—"}
             </p>
 
-            <Button
+            {/* <Button
               variant="outline"
               size="sm"
               className="mt-4 flex gap-2 mx-auto"
               onClick={() => setOpen(true)}
             >
               <Edit className="h-4 w-4" /> Edit Profile
-            </Button>
+            </Button> */}
           </Card>
 
           <Card className="p-6">
@@ -311,71 +246,14 @@ const DashboardScreen = () => {
         </div>
       </main>
 
-      {/* Edit Profile Dialog */}
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Edit Profile</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 mt-3">
-            <div>
-              <Label htmlFor="name">Name</Label>
-              <Input
-                id="name"
-                value={formData.name}
-                onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
-                }
-                placeholder="Your name"
-              />
-            </div>
-            <div>
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
-                placeholder="Your email"
-              />
-            </div>
-            <div className="pt-4 border-t">
-              <Label htmlFor="password">Change Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="New password"
-                value={formData.password}
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
-              />
-              <p className="text-xs text-gray-500 mt-1">
-                Leave blank if you don’t want to change password.
-              </p>
-            </div>
-            {errorMsg && (
-              <p className="text-red-500 text-sm mt-2">{errorMsg}</p>
-            )}
-          </div>
-          <DialogFooter className="mt-6">
-            <Button variant="outline" onClick={() => setOpen(false)}>
-              Cancel
-            </Button>
-            <Button onClick={handleSave} disabled={saving}>
-              {saving ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin mr-2" /> Saving...
-                </>
-              ) : (
-                "Save Changes"
-              )}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      {/* <EditProfileDialog
+        open={open}
+        setOpen={setOpen}
+        formData={formData}
+        setFormData={setFormData}
+        onSave={handleSave}
+        saving={saving}
+      /> */}
     </div>
   );
 };
