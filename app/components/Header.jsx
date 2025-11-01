@@ -81,11 +81,11 @@ const Header = () => {
                   <DropdownMenuItem>Dashboard</DropdownMenuItem>
                 </Link>
 
-                <DropdownMenuItem
-                  onClick={handleLogout}
-                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg cursor-pointer"
-                >
-                  Logout
+                <DropdownMenuItem className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg cursor-pointer">
+                  <span onClick={handleLogout} className="w-full">
+                    {" "}
+                    Logout
+                  </span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
