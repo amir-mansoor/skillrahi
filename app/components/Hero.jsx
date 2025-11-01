@@ -13,8 +13,7 @@ const Hero = () => {
       {/* Headline */}
       <div className="max-w-4xl mx-auto">
         <h1 className="text-5xl sm:text-6xl font-extrabold text-gray-900 leading-tight">
-          Learn. Build. Earn —{" "}
-          <span className="text-blue-600">together from Pakistan 🇵🇰</span>
+          Learn. Build. Earn — <span className="text-blue-600">together</span>
         </h1>
 
         <p className="mt-5 text-lg sm:text-xl text-gray-600">

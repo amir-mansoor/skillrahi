@@ -15,7 +15,7 @@ const AboutPage = () => {
         </h1>
         <p className="text-gray-600 text-lg mt-4 max-w-2xl mx-auto">
           Empowering Pakistani students to learn digital skills for free — built
-          by students, for students 🇵🇰
+          by student, for students
         </p>
       </div>
 
@@ -26,7 +26,7 @@ const AboutPage = () => {
           Hey! I'm <span className="font-semibold">Qazi</span> — a BS Computer
           Science student who started{" "}
           <span className="font-semibold">SkillRahi</span> to make digital
-          learning accessible for everyone in Pakistan.
+          learning accessible for everyone.
           <br />
           <br />
           While learning web development and freelancing myself, I realized that
@@ -44,7 +44,7 @@ const AboutPage = () => {
         </h2>
         <p className="text-gray-700 text-lg max-w-2xl mx-auto leading-relaxed">
           <span className="font-semibold">
-            Making digital learning easier for Pakistani students.
+            Making digital learning easier for students.
           </span>
           <br />
           We believe every student — regardless of background or city — deserves
@@ -76,7 +76,7 @@ const AboutPage = () => {
       <div className="text-center mt-20">
         <Heart className="w-8 h-8 text-red-500 mx-auto mb-2" />
         <p className="text-gray-600 italic">
-          “SkillRahi is built with ❤️ by students — for students.”
+          “SkillRahi is built with ❤️ by student — for students.”
         </p>
       </div>
     </div>
