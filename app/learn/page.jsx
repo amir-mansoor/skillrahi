@@ -13,14 +13,14 @@ const LearnPage = () => {
 
     const fetchPaths = async () => {
       setLoading(true);
-      console.log("start fetch");
+      // console.log("start fetch");
 
       const { data, error } = await supabase
         .from("learn")
         .select("*")
         .order("created_at", { ascending: false });
 
-      console.log("after await");
+      // console.log("after await");
 
       if (!mounted) return; // avoid setState if unmounted
 
