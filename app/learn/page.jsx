@@ -6,21 +6,36 @@ import { supabase } from "@/lib/supabaseclient";
 
 const LearnPage = () => {
   const [paths, setPaths] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    let mounted = true;
+
     const fetchPaths = async () => {
+      setLoading(true);
+      console.log("start fetch");
+
       const { data, error } = await supabase
         .from("learn")
         .select("*")
         .order("created_at", { ascending: false });
 
+      console.log("after await");
+
+      if (!mounted) return; // avoid setState if unmounted
+
       if (error) console.log("Error fetching learn paths:", error);
-      else setPaths(data);
+      setPaths(data || []);
 
       setLoading(false);
+      console.log("done");
     };
+
     fetchPaths();
+
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   if (loading)

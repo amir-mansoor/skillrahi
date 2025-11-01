@@ -8,17 +8,23 @@ const ProjectsPage = () => {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
+    let mounted = true;
     const fetchProjects = async () => {
       const { data, error } = await supabase
         .from("projects")
         .select("*")
         .order("created_at", { ascending: false });
+      if (!mounted) return;
 
       if (error) console.error(error);
       else setProjects(data);
     };
 
     fetchProjects();
+
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   // Group projects by category
