@@ -14,9 +14,10 @@ import {
 
 const Header = () => {
   let user = true;
-    //const { data: session, status } = useSession();
-  const handleLogout = async () => {
-   // await signOut({ callbackUrl: "/auth" });
+  //const { data: session, status } = useSession();
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    // await signOut({ callbackUrl: "/auth" });
   };
 
   return (

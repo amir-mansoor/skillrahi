@@ -1,4 +1,4 @@
-import { redirectIfLogin } from "@/lib/auth_redirect";
+// import { redirectIfLogin } from "@/lib/auth_redirect";
 import AuthScreen from "./AuthScreen";
 
 export const metadata = {
@@ -7,6 +7,5 @@ export const metadata = {
 };
 
 export default async function AuthPage() {
-  await redirectIfLogin();
   return <AuthScreen />;
 }

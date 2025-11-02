@@ -30,6 +30,7 @@ const AuthScreen = () => {
           email,
           password,
           redirect: false, // <- important
+          callbackUrl: "/",
         });
 
         if (result?.error) {

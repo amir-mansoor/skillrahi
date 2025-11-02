@@ -4,7 +4,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { Toaster } from "sonner";
 // import { SessionProvider } from "next-auth/react";
-// import { Providers } from "./sessionProvider";
+import { Providers } from "./sessionProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,22 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: {
-    default: "SkillRahi – Learn. Build. Grow.",
-    template: "%s | SkillRahi",
-  },
-  description:
-    "A digital learning hub for students. Learn coding, freelancing, and practical projects for free.",
-  keywords: [
-    "SkillRahi",
-    "Pakistan",
-    "learn coding free",
-    "freelancing",
-    "digital skills",
-  ],
-  authors: [{ name: "Qazi", url: "https://skillrahi.vercel.app" }],
-  creator: "Qazi",
-  metadataBase: new URL("https://skillrahi.vercel.app"),
+  title: "Skillrahi",
 };
 
 export default function RootLayout({ children }) {
@@ -41,12 +26,12 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-       
+        <Providers>
           <Toaster />
           <Header />
           {children}
           <Footer />
-        
+        </Providers>
       </body>
     </html>
   );
