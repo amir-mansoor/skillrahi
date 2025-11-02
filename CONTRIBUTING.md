@@ -1,17 +1,36 @@
 # Contributing to SkillRahi
 
 Thank you for considering contributing! 🎉  
-SkillRahi is open-source because we want the community to build together.
+SkillRahi is open-source because we want the community to build + improve practical learning resources for students.
 
-## How to contribute
+We welcome beginners. If this is your **first ever open-source contribution** — you are at the right place.
 
-1. **Fork** the repository
-2. Create a new branch
-3. Write your code / improvements
-4. Submit a **Pull Request**
+---
+
+## Ways you can contribute
+
+- Add new lessons (Markdown content)
+- Add new project ideas (hands-on practice builds)
+- Improve UI/UX
+- Improve docs / grammar / spelling
+- Fix bugs
+- Add new features
+- Refactor code / cleanup
+- Review pull requests
+
+---
+
+## Getting Started (local setup)
+
+1. Fork this repo
+2. Clone your fork locally
 
 ```bash
+git clone https://github.com/<your-username>/skillrahi.git
+cd skillrahi
+# Create a branch
 git checkout -b feature/my-feature
-git commit -m "feat: added <your feature>"
-git push origin feature/my-feature
-
+npm install
+# Setup .env (see .env.example)
+npm run dev
+```
