@@ -2,7 +2,9 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import User from "@/models/userModel";
 import bcrypt from "bcryptjs";
+import { connectDB } from "@/lib/db";
 
+connectDB();
 export const authOptions = {
   providers: [
     CredentialsProvider({
@@ -17,7 +19,9 @@ export const authOptions = {
           throw new Error("Invalid Credentials");
         }
 
-        const user = await User.findOne({ email: credentials.email });
+        const user = await User.findOne({ email: credentials.email }).select(
+          "-password"
+        );
 
         if (!user && !user.password) {
           throw new Error("Invalid Credentials");
