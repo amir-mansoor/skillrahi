@@ -1,9 +1,7 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/lib/supabaseclient";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useAuth } from "../context/AuthContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,24 +12,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const Header = () => {
-  const { user, profile, setProfile, setUser } = useAuth();
-  const router = useRouter();
-
-  const handleLogout = async () => {
-    try {
-      // Sign out from Supabase Auth
-      await supabase.auth.signOut();
-
-      // Clear local context state
-      setUser(null);
-      setProfile(null);
-
-      // redirect to homepage
-      router.push("/");
-    } catch (err) {
-      console.error("Logout failed:", err.message);
-    }
-  };
+  let user = true;
+  const handleLogout = async () => {};
 
   return (
     <header className="shadow-sm sticky top-0 bg-white/80 backdrop-blur-md z-50">
@@ -73,7 +55,7 @@ const Header = () => {
         {user ? (
           <div className="flex items-center gap-3">
             <DropdownMenu>
-              <DropdownMenuTrigger>{profile?.name}</DropdownMenuTrigger>
+              <DropdownMenuTrigger>Test</DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
