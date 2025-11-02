@@ -10,14 +10,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-// import { signOut, useSession } from "next-auth/react";
+// import { auth } from "@/auth";
+import { signOut, useSession } from "next-auth/react";
 
 const Header = () => {
   let user = true;
-  //const { data: session, status } = useSession();
+  // const session = await auth();
+  const { data: session } = useSession();
+
   const handleLogout = async (e) => {
     e.preventDefault();
-    // await signOut({ callbackUrl: "/auth" });
+    await signOut({ callbackUrl: "/auth" });
   };
 
   return (
@@ -57,10 +60,10 @@ const Header = () => {
         </nav>
 
         {/* Auth Section */}
-        {user ? (
+        {session?.user ? (
           <div className="flex items-center gap-3">
             <DropdownMenu>
-              <DropdownMenuTrigger>Test</DropdownMenuTrigger>
+              <DropdownMenuTrigger>{session?.user?.name}</DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
