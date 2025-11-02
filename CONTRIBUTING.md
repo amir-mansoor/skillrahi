@@ -38,9 +38,28 @@ npm run dev
 ## Commit message rules
 Please use simple meaningful commit messages
 Examples 
-`feat: add new lesson for HTML basics` - New Feature
-`fix: dashboard progress query` - Bug Fix
-`docs: improve readme formatting` - improve readme formating
-`refactor: move components into ui folder` - code cleanup
+- New Feature
+ - `feat: add new lesson for HTML basics`
+- Bug Fix 
+ - `fix: dashboard progress query`
+- improve readme formating 
+ - `docs: improve readme formatting`
+- code cleanup 
+ - `refactor: move components into ui folder` 
 
 ## Pull Request Guidelines
+Before submitting a PR:
+- make sure it builds (npm run dev works)
+- format code using prettier
+- describe clearly “what changed” and “why”
+- keep PRs focused (ONE purpose per PR)
+
+then push your branch
+```
+git push origin feature/my-feature
+```
+and open a Pull Request.
+
+Thank you 💙
+This project grows faster when more students contribute.
+Your contribution matters — small or big.
