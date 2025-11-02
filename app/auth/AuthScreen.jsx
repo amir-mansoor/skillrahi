@@ -1,56 +1,63 @@
 "use client";
-import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabaseclient";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { useAuth } from "../context/AuthContext";
+import axios from "axios";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const AuthScreen = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
-  const [message, setMessage] = useState("");
   const router = useRouter();
-  const { user } = useAuth();
-
-  useEffect(() => {
-    if (user) {
-      router.push("/");
-    }
-  }, [user]);
 
   const handleAuth = async (e) => {
     e.preventDefault();
-    setMessage("");
 
-    let action;
-    if (isLogin) {
-      action = supabase.auth.signInWithPassword({ email, password });
-    } else {
-      action = supabase.auth.signUp({ email, password });
-    }
-
-    const { error, data } = await action;
     if (!isLogin) {
-      await supabase.from("users").insert([
-        {
-          id: data.user.id,
+      try {
+        const res = await axios.post("/api/register", {
           name,
-          email: data.user.email,
-        },
-      ]);
-    }
-    if (error) toast.error(error.message);
-    else {
-      setMessage(
-        isLogin
-          ? "✅ Logged in successfully!"
-          : "✅ Sign-up successful! Please check your email."
-      );
-      if (isLogin) router.push("/projects");
+          email,
+          password,
+        });
+
+        // signIn does NOT throw -> it always resolves
+        const result = await signIn("credentials", {
+          email,
+          password,
+          redirect: false, // <- important
+        });
+
+        if (result?.error) {
+          toast.error(result.error);
+          return; // stop here, dont redirect
+        }
+
+        // success
+        router.push("/");
+      } catch (err) {
+        // axios errors come here
+        toast.error(
+          err?.response?.data?.error || err?.message || "Something went wrong"
+        );
+      }
+    } else {
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false, // <- important
+      });
+
+      if (result?.error) {
+        toast.error(result.error);
+        return; // stop here, dont redirect
+      }
+      toast.success("Login Successfull");
+      router.push("/");
     }
   };
 
@@ -96,10 +103,6 @@ const AuthScreen = () => {
             {isLogin ? "Login" : "Sign Up"}
           </Button>
         </form>
-
-        {message && (
-          <p className="text-center text-sm mt-4 text-gray-600">{message}</p>
-        )}
 
         <p className="text-center mt-6 text-sm text-gray-500">
           {isLogin ? "New here?" : "Already have an account?"}{" "}
