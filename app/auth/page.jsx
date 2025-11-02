@@ -1,3 +1,4 @@
+import { redirectIfLogin } from "@/lib/auth_redirect";
 import AuthScreen from "./AuthScreen";
 
 export const metadata = {
@@ -5,6 +6,7 @@ export const metadata = {
   description: "Login don't account have yet",
 };
 
-export default function AuthPage() {
+export default async function AuthPage() {
+  await redirectIfLogin();
   return <AuthScreen />;
 }

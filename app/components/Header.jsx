@@ -10,10 +10,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+// import { signOut, useSession } from "next-auth/react";
 
 const Header = () => {
   let user = true;
-  const handleLogout = async () => {};
+    //const { data: session, status } = useSession();
+  const handleLogout = async () => {
+   // await signOut({ callbackUrl: "/auth" });
+  };
 
   return (
     <header className="shadow-sm sticky top-0 bg-white/80 backdrop-blur-md z-50">
