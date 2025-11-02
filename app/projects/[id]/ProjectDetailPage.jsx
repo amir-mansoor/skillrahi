@@ -1,90 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabaseclient";
+import { useState } from "react";
+
 import { useParams } from "next/navigation";
 import ReactMarkdown from "react-markdown";
-import { useAuth } from "@/app/context/AuthContext";
+
 import { Button } from "@/components/ui/button";
 import remarkGfm from "remark-gfm";
 
 const ProjectDetailPage = ({ project }) => {
   const { id } = useParams();
-  const { user } = useAuth();
 
   const [status, setStatus] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [initialized, setInitialized] = useState(false); // ✅ prevent re-run
-
-  useEffect(() => {
-    if (!id || !user || initialized) return; // ✅ skip reruns
-    setInitialized(true);
-
-    const fetchData = async () => {
-      // 🟢 2. Fetch or insert progress
-      const { data: progressData, error: progressError } = await supabase
-        .from("user_progress")
-        .select("status")
-        .eq("user_id", user.id)
-        .eq("item_id", id)
-        .eq("type", "project")
-        .maybeSingle();
-
-      if (progressError) console.error(progressError.message);
-
-      if (progressData) {
-        setStatus(progressData.status);
-      } else {
-        // ✅ Safe upsert instead of insert
-        const { error: insertError } = await supabase
-          .from("user_progress")
-          .upsert(
-            {
-              user_id: user.id,
-              item_id: id,
-              type: "project",
-              status: "started",
-            },
-            { onConflict: "user_id,item_id,type" }
-          );
-
-        if (insertError) console.error("Insert error:", insertError.message);
-        setStatus("started");
-      }
-    };
-
-    fetchData();
-  }, [id, user, initialized]);
 
   // 🟢 Mark as Complete
-  const handleMarkComplete = async () => {
-    if (!user) {
-      alert("Please login to save progress.");
-      return;
-    }
-
-    setLoading(true);
-
-    const { error } = await supabase.from("user_progress").upsert(
-      {
-        user_id: user.id,
-        item_id: id,
-        type: "project",
-        status: "completed",
-      },
-      { onConflict: "user_id,item_id,type" }
-    );
-
-    setLoading(false);
-
-    if (error) {
-      console.error("Error saving progress:", error.message);
-      alert("Something went wrong while saving progress.");
-      return;
-    }
-
-    setStatus("completed");
-  };
+  const handleMarkComplete = async () => {};
 
   if (!project)
     return <p className="text-center py-20 text-gray-500">Loading...</p>;

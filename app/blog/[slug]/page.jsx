@@ -1,32 +1,22 @@
-import { supabase } from "@/lib/supabaseclient";
 import BlogContent from "./BlogContent";
 
-export async function generateMetadata({ params }) {
-  const { slug } = await params;
-
-  const { data: post } = await supabase
-    .from("blog")
-    .select("title, description")
-    .eq("slug", slug)
-    .single();
-
-  if (!post) return { title: "Not found" };
-
+export async function generateMetadata() {
   return {
-    title: post.title,
-    description: post.description,
+    title: "Blog Title",
+    description: "Blog description",
   };
 }
 
-export default async function BlogDetailPage({ params }) {
-  const { slug } = await params;
-
-  // ✅ only fetch one time
-  const { data: post } = await supabase
-    .from("blog")
-    .select("*")
-    .eq("slug", slug)
-    .single();
+export default async function BlogDetailPage() {
+  const post = {
+    id: 1,
+    title: "Hello world",
+    description: "This is description",
+    created_at: "2025-10-31 14:32:01.808144+00",
+    content: "# Blog Title Goes Here Markdown",
+    slug: "hello-slug",
+    author: "Admin",
+  };
 
   return <BlogContent post={post} />;
 }

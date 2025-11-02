@@ -1,42 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { supabase } from "@/lib/supabaseclient";
 
 const LearnPage = () => {
-  const [paths, setPaths] = useState([]);
+  const [paths, setPaths] = useState([
+    {
+      id: 1,
+      title: "Test",
+      description: "hello world",
+      category: "web dev",
+    },
+  ]);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    let mounted = true;
-
-    const fetchPaths = async () => {
-      setLoading(true);
-      // console.log("start fetch");
-
-      const { data, error } = await supabase
-        .from("learn")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      // console.log("after await");
-
-      if (!mounted) return; // avoid setState if unmounted
-
-      if (error) console.log("Error fetching learn paths:", error);
-      setPaths(data || []);
-
-      setLoading(false);
-      console.log("done");
-    };
-
-    fetchPaths();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
 
   if (loading)
     return (

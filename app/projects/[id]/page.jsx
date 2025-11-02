@@ -1,30 +1,21 @@
-import { supabase } from "@/lib/supabaseclient";
 import ProjectDetailPage from "./ProjectDetailPage";
 
-export async function generateMetadata({ params }) {
-  const { id } = await params;
-
-  const { data: project } = await supabase
-    .from("projects")
-    .select("*")
-    .eq("id", id)
-    .single();
-
-  if (!project) return { title: "Not found" };
-
+export async function generateMetadata() {
   return {
-    title: project.title + " - SkillRahi",
-    description: project.description,
+    title: "My Project ",
+    description: "My Project description",
   };
 }
 
-export default async function ProjectDetail({ params }) {
-  const { id } = await params;
+export default async function ProjectDetail() {
+  const project = {
+    id: 1,
+    category: "AI",
+    difficulty: "Hard",
+    title: "AI Face Detection",
+    description: "Hello world",
+    content: "# Markdown Content will be renderd",
+  };
 
-  const { data: project } = await supabase
-    .from("projects")
-    .select("*")
-    .eq("id", id)
-    .single();
   return <ProjectDetailPage project={project} />;
 }

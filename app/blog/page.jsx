@@ -1,26 +1,11 @@
 "use client";
-import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabaseclient";
+import { useState } from "react";
 import Link from "next/link";
-import { PenSquare, Clock } from "lucide-react";
+import { Clock } from "lucide-react";
 
 export default function BlogPage() {
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      const { data, error } = await supabase
-        .from("blog")
-        .select("id, title, slug, description, created_at")
-        .order("created_at", { ascending: false });
-
-      if (!error) setPosts(data || []);
-      setLoading(false);
-    };
-
-    fetchBlogs();
-  }, []);
+  const [loading, setLoading] = useState(false);
 
   if (loading)
     return (

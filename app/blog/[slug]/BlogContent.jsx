@@ -1,7 +1,5 @@
 "use client";
-import { supabase } from "@/lib/supabaseclient";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+
 import ReactMarkdown from "react-markdown";
 import Link from "next/link";
 import { ArrowLeft, CalendarDays, User } from "lucide-react";

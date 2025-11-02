@@ -1,38 +1,17 @@
 "use client";
 
-import { supabase } from "@/lib/supabaseclient";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 
 const ProjectsPage = () => {
-  const [projects, setProjects] = useState([]);
-
-  useEffect(() => {
-    let mounted = true;
-    const fetchProjects = async () => {
-      const { data, error } = await supabase
-        .from("projects")
-        .select("*")
-        .order("created_at", { ascending: false });
-      if (!mounted) return;
-
-      if (error) console.error(error);
-      else setProjects(data);
-    };
-
-    fetchProjects();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
-
-  // Group projects by category
-  const groupedProjects = projects.reduce((acc, proj) => {
-    if (!acc[proj.category]) acc[proj.category] = [];
-    acc[proj.category].push(proj);
-    return acc;
-  }, {});
+  const [projects, setProjects] = useState([
+    {
+      id: 1,
+      category: "AI",
+      difficulty: "Hard",
+      title: "AI Face Detection",
+    },
+  ]);
 
   return (
     <div className="max-w-6xl mx-auto mt-20 px-6 py-10">
@@ -49,38 +28,35 @@ const ProjectsPage = () => {
 
       {/* Project Categories */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {Object.entries(groupedProjects).map(([category, items]) => (
+        {projects.map((project) => (
           <div
-            key={category}
+            key={project.id}
             className="bg-white border border-gray-100 shadow-md rounded-2xl p-6 hover:shadow-xl transition-all hover:-translate-y-1"
           >
             <h2 className="text-2xl font-bold text-blue-600 mb-4">
-              {category}
+              {project.category}
             </h2>
 
             <div className="space-y-4">
-              {items.map((proj) => (
-                <Link
-                  href={`/projects/${proj.id}`}
-                  key={proj.id}
-                  className="block border border-gray-200 rounded-xl p-4 hover:bg-gray-50 transition-all"
+              <Link
+                href={`/projects/${project.id}`}
+                className="block border border-gray-200 rounded-xl p-4 hover:bg-gray-50 transition-all"
+              >
+                <h3 className="font-semibold text-gray-800 text-lg">
+                  {project.title}
+                </h3>
+                <span
+                  className={`inline-block mt-2 px-3 py-1 text-sm font-medium rounded-full ${
+                    project.difficulty === "Easy"
+                      ? "bg-green-100 text-green-700"
+                      : project.difficulty === "Medium"
+                      ? "bg-yellow-100 text-yellow-700"
+                      : "bg-blue-100 text-blue-700"
+                  }`}
                 >
-                  <h3 className="font-semibold text-gray-800 text-lg">
-                    {proj.title}
-                  </h3>
-                  <span
-                    className={`inline-block mt-2 px-3 py-1 text-sm font-medium rounded-full ${
-                      proj.difficulty === "Easy"
-                        ? "bg-green-100 text-green-700"
-                        : proj.difficulty === "Medium"
-                        ? "bg-yellow-100 text-yellow-700"
-                        : "bg-blue-100 text-blue-700"
-                    }`}
-                  >
-                    {proj.difficulty}
-                  </span>
-                </Link>
-              ))}
+                  {project.difficulty}
+                </span>
+              </Link>
             </div>
           </div>
         ))}

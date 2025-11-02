@@ -1,31 +1,19 @@
-import { supabase } from "@/lib/supabaseclient";
 import LessonPage from "./LessonPage";
 
-export async function generateMetadata({ params }) {
-  const { id } = await params;
-
-  const { data: post } = await supabase
-    .from("learn")
-    .select("*")
-    .eq("id", id)
-    .single();
-
-  if (!post) return { title: "Not found" };
-
+export async function generateMetadata() {
   return {
-    title: post.title + " - SkillRahi",
-    description: post.description,
+    title: "Title of the lesson",
+    description: "description of the lesson",
   };
 }
 
-export default async function LearnDetailPage({ params }) {
-  const { id } = await params;
-
-  const { data: post } = await supabase
-    .from("learn")
-    .select("*")
-    .eq("id", id)
-    .single();
+export default async function LearnDetailPage() {
+  const post = {
+    title: "This is the title",
+    description: "This is the description",
+    content: "# hello world",
+    difficulty: "Hard",
+  };
 
   return <LessonPage lesson={post} />;
 }

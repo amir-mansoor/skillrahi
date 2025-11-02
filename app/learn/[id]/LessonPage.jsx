@@ -1,90 +1,24 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabaseclient";
-import { useParams } from "next/navigation";
+import { useState } from "react";
+
 import ReactMarkdown from "react-markdown";
 import "highlight.js/styles/github-dark.min.css";
 import rehypeHighlight from "rehype-highlight";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/app/context/AuthContext";
+
 import remarkGfm from "remark-gfm";
 
 const rehypeHighlightWithAutoDetect = (options) =>
   rehypeHighlight({ ...options, detect: true });
 
 const LessonPage = ({ lesson }) => {
-  const { id } = useParams();
-  const { user } = useAuth();
-
   const [status, setStatus] = useState(null);
 
   const [saving, setSaving] = useState(false);
-  const [initialized, setInitialized] = useState(false);
-
-  useEffect(() => {
-    if (!id || !user || initialized) return;
-    setInitialized(true);
-
-    const fetchLessonAndProgress = async () => {
-      // 🟢 Fetch or initialize progress
-      const { data: progressData, error: progressError } = await supabase
-        .from("user_progress")
-        .select("status")
-        .eq("user_id", user.id)
-        .eq("item_id", id)
-        .eq("type", "learn")
-        .maybeSingle();
-
-      if (progressError) console.error(progressError.message);
-
-      if (progressData) {
-        setStatus(progressData.status);
-      } else {
-        // ✅ Create "started" progress entry safely
-        const { error: insertError } = await supabase
-          .from("user_progress")
-          .upsert(
-            {
-              user_id: user.id,
-              item_id: id,
-              type: "learn",
-              status: "started",
-            },
-            { onConflict: "user_id,item_id,type" }
-          );
-
-        if (insertError) console.error("Insert error:", insertError.message);
-        setStatus("started");
-      }
-    };
-
-    fetchLessonAndProgress();
-  }, [id, user, initialized]);
 
   // 🟢 Mark as Complete
-  const handleMarkComplete = async () => {
-    if (!user) return alert("Please login to save progress.");
-    setSaving(true);
-
-    const { error } = await supabase.from("user_progress").upsert(
-      {
-        user_id: user.id,
-        item_id: id,
-        type: "learn",
-        status: "completed",
-      },
-      { onConflict: "user_id,item_id,type" }
-    );
-
-    setSaving(false);
-    if (error) {
-      console.error("Error saving progress:", error.message);
-      return alert("Something went wrong while saving progress.");
-    }
-
-    setStatus("completed");
-  };
+  const handleMarkComplete = async () => {};
 
   if (!lesson)
     return (
