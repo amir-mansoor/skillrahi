@@ -19,9 +19,7 @@ export const authOptions = {
           throw new Error("Invalid Credentials");
         }
 
-        const user = await User.findOne({ email: credentials.email }).select(
-          "-password"
-        );
+        const user = await User.findOne({ email: credentials.email });
 
         if (!user && !user.password) {
           throw new Error("Invalid Credentials");
