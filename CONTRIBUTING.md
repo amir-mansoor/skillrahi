@@ -63,3 +63,4 @@ and open a Pull Request.
 Thank you 💙
 This project grows faster when more students contribute.
 Your contribution matters — small or big.
+> We accept PRs from beginners — even small UI fixes, typo fixes, or code cleanup.
