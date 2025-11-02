@@ -34,3 +34,13 @@ npm install
 # Setup .env (see .env.example)
 npm run dev
 ```
+
+## Commit message rules
+Please use simple meaningful commit messages
+Examples 
+`feat: add new lesson for HTML basics` - New Feature
+`fix: dashboard progress query` - Bug Fix
+`docs: improve readme formatting` - improve readme formating
+`refactor: move components into ui folder` - code cleanup
+
+## Pull Request Guidelines
