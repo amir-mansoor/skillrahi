@@ -4,8 +4,8 @@ import ReactMarkdown from "react-markdown";
 import Link from "next/link";
 import { ArrowLeft, CalendarDays, User } from "lucide-react";
 
-const BlogContent = ({ post }) => {
-  if (!post)
+const BlogContent = ({ blog }) => {
+  if (!blog)
     return (
       <div className="text-center py-20">
         <h2 className="text-2xl font-bold mb-4">Post not found 😢</h2>
@@ -29,29 +29,29 @@ const BlogContent = ({ post }) => {
 
       {/* Header */}
       <h1 className="text-4xl font-extrabold text-gray-900 mb-4">
-        {post.title}
+        {blog.title}
       </h1>
-      <p className="text-gray-600 text-lg mb-6">{post.description}</p>
+      <p className="text-gray-600 text-lg mb-6">{blog.description}</p>
 
       <div className="flex items-center gap-6 text-sm text-gray-500 mb-8">
         <div className="flex items-center gap-2">
           <CalendarDays className="w-4 h-4" />
-          {new Date(post.created_at).toLocaleDateString("en-US", {
+          {new Date(blog.created_at).toLocaleDateString("en-US", {
             month: "long",
             year: "numeric",
             day: "numeric",
           })}
         </div>
-        {post.author && (
+        {blog.author && (
           <div className="flex items-center gap-2">
-            <User className="w-4 h-4" /> {post.author}
+            <User className="w-4 h-4" /> {blog.author}
           </div>
         )}
       </div>
 
       {/* Markdown Content */}
       <article className="prose prose-indigo max-w-none">
-        <ReactMarkdown>{post.content}</ReactMarkdown>
+        <ReactMarkdown>{blog.content}</ReactMarkdown>
       </article>
     </div>
   );

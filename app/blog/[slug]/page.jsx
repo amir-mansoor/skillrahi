@@ -1,22 +1,32 @@
 import BlogContent from "./BlogContent";
 
-export async function generateMetadata() {
+// shared data fetcher
+async function getPath(slug) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/blog/${slug}`,
+    {
+      cache: "no-store", // important
+    }
+  );
+
+  if (!res.ok) throw new Error("blog not found");
+
+  return res.json(); // json() here works
+}
+
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const blog = await getPath(slug);
+
   return {
-    title: "Blog Title",
-    description: "Blog description",
+    title: blog.title,
+    description: blog.description,
   };
 }
 
-export default async function BlogDetailPage() {
-  const post = {
-    id: 1,
-    title: "Hello world",
-    description: "This is description",
-    created_at: "2025-10-31 14:32:01.808144+00",
-    content: "# Blog Title Goes Here Markdown",
-    slug: "hello-slug",
-    author: "Admin",
-  };
+export default async function LearnDetailPage({ params }) {
+  const { slug } = await params;
+  const blog = await getPath(slug);
 
-  return <BlogContent post={post} />;
+  return <BlogContent blog={blog} />;
 }
