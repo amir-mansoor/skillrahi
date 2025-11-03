@@ -12,7 +12,7 @@ import remarkGfm from "remark-gfm";
 const rehypeHighlightWithAutoDetect = (options) =>
   rehypeHighlight({ ...options, detect: true });
 
-const LessonPage = ({ lesson }) => {
+const LessonPage = ({ path }) => {
   const [status, setStatus] = useState(null);
 
   const [saving, setSaving] = useState(false);
@@ -20,7 +20,7 @@ const LessonPage = ({ lesson }) => {
   // 🟢 Mark as Complete
   const handleMarkComplete = async () => {};
 
-  if (!lesson)
+  if (!path)
     return (
       <p className="text-center py-20 text-gray-500">
         Lesson not found or has been removed.
@@ -30,18 +30,18 @@ const LessonPage = ({ lesson }) => {
   return (
     <section className="px-6 py-20 max-w-3xl mx-auto">
       {/* Title */}
-      <h1 className="text-4xl font-bold text-gray-900 mb-3">{lesson.title}</h1>
+      <h1 className="text-4xl font-bold text-gray-900 mb-3">{path.title}</h1>
 
       {/* Meta Info */}
       <p className="text-gray-500 mb-6">
         Category:{" "}
-        <span className="font-medium text-gray-700">{lesson.category}</span> |{" "}
+        <span className="font-medium text-gray-700">{path.category}</span> |{" "}
         Difficulty:{" "}
-        <span className="font-medium text-gray-700">{lesson.difficulty}</span>
+        <span className="font-medium text-gray-700">{path.difficulty}</span>
       </p>
 
       {/* Short Description */}
-      <p className="text-gray-700 mb-8 leading-relaxed">{lesson.description}</p>
+      <p className="text-gray-700 mb-8 leading-relaxed">{path.description}</p>
 
       {/* Markdown Content */}
       <article className="prose prose-blue max-w-none mb-10">
@@ -49,7 +49,7 @@ const LessonPage = ({ lesson }) => {
           remarkPlugins={[remarkGfm]}
           rehypePlugins={[rehypeHighlightWithAutoDetect]}
         >
-          {lesson.content}
+          {path.content}
         </ReactMarkdown>
       </article>
 

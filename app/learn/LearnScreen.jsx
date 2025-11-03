@@ -19,7 +19,7 @@ const LearnScreen = ({ paths }) => {
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
         {paths.map((path) => (
           <div
-            key={path.id}
+            key={path._id}
             className="group border border-gray-100 bg-white shadow-md hover:shadow-xl transition-all rounded-2xl p-6 hover:-translate-y-1"
           >
             {/* Gradient bar (based on category color logic) */}
@@ -45,7 +45,7 @@ const LearnScreen = ({ paths }) => {
               {path.description}
             </p>
 
-            <Link href={`/learn/${path.id}`}>
+            <Link href={`/learn/${path._id}`}>
               <button className="cursor-pointer mt-6 bg-blue-600 text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-blue-700 transition-all shadow-sm">
                 Start Learning
               </button>
