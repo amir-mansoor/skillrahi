@@ -1,21 +1,31 @@
 import ProjectDetailPage from "./ProjectDetailPage";
 
-export async function generateMetadata() {
+// shared data fetcher
+async function getPath(id) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/projects/${id}`,
+    {
+      cache: "no-store", // important
+    }
+  );
+
+  if (!res.ok) throw new Error("Path not found");
+
+  return res.json(); // json() here works
+}
+
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+  const project = await getPath(id);
+
   return {
-    title: "My Project ",
-    description: "My Project description",
+    title: project.title,
+    description: project.description,
   };
 }
 
-export default async function ProjectDetail() {
-  const project = {
-    id: 1,
-    category: "AI",
-    difficulty: "Hard",
-    title: "AI Face Detection",
-    description: "Hello world",
-    content: "# Markdown Content will be renderd",
-  };
-
+export default async function LearnDetailPage({ params }) {
+  const { id } = await params;
+  const project = await getPath(id);
   return <ProjectDetailPage project={project} />;
 }

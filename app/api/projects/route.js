@@ -1,12 +1,12 @@
 // app/api/paths/route.js
 import { NextResponse } from "next/server";
-import Path from "@/models/pathModel";
+import Project from "@/models/projectModel";
 import { connectDB } from "@/lib/db";
 
 export async function GET() {
   connectDB();
   try {
-    const paths = await Path.find({}).select("-content");
-    return NextResponse.json(paths);
+    const projects = await Project.find({}).select("-content");
+    return NextResponse.json(projects);
   } catch (err) {}
 }
