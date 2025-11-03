@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-const LessonSchema = new Schema(
+const pathSchema = new Schema(
   {
     title: String,
     description: String,
@@ -11,5 +11,4 @@ const LessonSchema = new Schema(
   { timestamps: true }
 );
 
-export default mongoose.models.Lesson || mongoose.model("Lesson", LessonSchema);
-
+export default mongoose.models.Path || mongoose.model("Path", pathSchema);

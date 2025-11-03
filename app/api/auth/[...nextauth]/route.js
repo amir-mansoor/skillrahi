@@ -4,7 +4,6 @@ import User from "@/models/userModel";
 import bcrypt from "bcryptjs";
 import { connectDB } from "@/lib/db";
 
-connectDB();
 export const authOptions = {
   providers: [
     CredentialsProvider({
@@ -15,6 +14,7 @@ export const authOptions = {
       },
 
       async authorize(credentials) {
+        connectDB();
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Invalid Credentials");
         }
