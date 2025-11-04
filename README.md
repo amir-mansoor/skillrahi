@@ -42,6 +42,6 @@ npm run dev
 
 Here are some screenshots of the SkillRahi UI:
 
-![Homepage Screenshot](public/screenshots/homepage.png)
-![Dashboard Screenshot](public/screenshots/dashboard.png)
+![Homepage Screenshot](/public/screenshots/homepage.png)
+![Dashboard Screenshot](/public/screenshots/dashboard.png)
 
