@@ -8,5 +8,8 @@ export async function GET() {
   try {
     const paths = await Path.find({}).select("-content");
     return NextResponse.json(paths);
-  } catch (err) {}
+  } catch (error) {
+    console.log("GET PATH ERROR:", error);
+    return NextResponse.json({ message: "Server Error" }, { status: 500 });
+  }
 }
