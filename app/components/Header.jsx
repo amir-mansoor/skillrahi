@@ -63,6 +63,13 @@ const Header = () => {
           >
             Contributors
           </Link>
+
+          <Link
+            href="/contribute"
+            className="hover:text-blue-600 transition-colors"
+          >
+            How to Contribute
+          </Link>
         </nav>
 
         {/* Auth Section */}
@@ -73,6 +80,7 @@ const Header = () => {
               <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
+
                 <Link href="/dashboard">
                   <DropdownMenuItem>Dashboard</DropdownMenuItem>
                 </Link>
