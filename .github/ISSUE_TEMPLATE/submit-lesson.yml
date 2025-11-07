@@ -1,0 +1,21 @@
+name: Submit a Lesson
+description: Contribute a new lesson to SkillRahi (Markdown Format)
+title: "[Lesson] <title here>"
+body:
+  - type: textarea
+    attributes:
+      label: Lesson Content (Markdown)
+      description: Paste full lesson in Markdown using the lesson structure.
+      placeholder: |
+        # Title
+        ## What You Will Learn
+        - ...
+        ## Explanation
+        ...
+        ## Example Code
+        ```js
+        ```
+        ## Mini Assignment
+        ...
+    validations:
+      required: true
