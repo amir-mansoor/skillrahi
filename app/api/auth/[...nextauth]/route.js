@@ -14,7 +14,7 @@ export const authOptions = {
       },
 
       async authorize(credentials) {
-        connectDB();
+        await connectDB();
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Invalid Credentials");
         }

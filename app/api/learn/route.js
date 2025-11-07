@@ -4,7 +4,7 @@ import Path from "@/models/pathModel";
 import { connectDB } from "@/lib/db";
 
 export async function GET() {
-  connectDB();
+  await connectDB();
   try {
     const paths = await Path.find({}).select("-content");
     return NextResponse.json(paths);

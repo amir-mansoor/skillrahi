@@ -6,7 +6,7 @@ import { connectDB } from "@/lib/db";
 export async function GET(req, { params }) {
   const { id } = await params;
 
-  connectDB();
+  await connectDB();
   try {
     const project = await Project.findById(id);
 
