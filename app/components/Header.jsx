@@ -57,6 +57,12 @@ const Header = () => {
           <Link href="/about" className="hover:text-blue-600 transition-colors">
             About
           </Link>
+          <Link
+            href="/contributors"
+            className="hover:text-blue-600 transition-colors"
+          >
+            Contributors
+          </Link>
         </nav>
 
         {/* Auth Section */}
