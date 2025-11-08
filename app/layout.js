@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import { Toaster } from "sonner";
 // import { SessionProvider } from "next-auth/react";
 import { Providers } from "./sessionProvider";
+import Head from "next/head";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,6 +24,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+     <head>
+        {/* Google Search Console Meta Tag */}
+       <meta name="google-site-verification" content="9yHnDG1gaKMkOWpEoijiQ_6l1muMdb-nSp3han7Ipz8" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
