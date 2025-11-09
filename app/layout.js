@@ -18,7 +18,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Skillrahi",
+  title: "Skill Rahi | Learn Skills and Grow with AI Tools",
+  description: "Skill Rahi helps you learn digital skills, explore AI tools, and grow your career online.",
 };
 
 export default function RootLayout({ children }) {
