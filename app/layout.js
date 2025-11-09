@@ -19,10 +19,22 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "Skill Rahi | Learn Skills and Grow with AI Tools",
-  description: "Skill Rahi helps you learn digital skills, explore AI tools, and grow your career online.",
+  description:
+    "Skill Rahi helps you learn digital skills, explore AI tools, and grow your career online.",
+  keywords: [
+    "Skill Rahi",
+    "digital skills",
+    "AI tools",
+    "learn online",
+    "affiliate programs",
+    "make money online",
+    "Skillrahi",
+    "Skill Rahi platform",
+  ],
   openGraph: {
     title: "Skill Rahi",
-    description: "Learn new skills, explore AI tools, and grow your income online.",
+    description:
+      "Learn new skills, explore AI tools, and grow your income online.",
     url: "https://skillrahi.vercel.app",
     siteName: "Skill Rahi",
   },
@@ -31,9 +43,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-     <head>
+      <head>
         {/* Google Search Console Meta Tag */}
-       <meta name="google-site-verification" content="9yHnDG1gaKMkOWpEoijiQ_6l1muMdb-nSp3han7Ipz8" />
+        <meta
+          name="google-site-verification"
+          content="9yHnDG1gaKMkOWpEoijiQ_6l1muMdb-nSp3han7Ipz8"
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
