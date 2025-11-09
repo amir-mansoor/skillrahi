@@ -3,6 +3,11 @@
 import ReactMarkdown from "react-markdown";
 import Link from "next/link";
 import { ArrowLeft, CalendarDays, User } from "lucide-react";
+import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
+
+const rehypeHighlightWithAutoDetect = (options) =>
+  rehypeHighlight({ ...options, detect: true });
 
 const BlogContent = ({ blog }) => {
   if (!blog)
@@ -51,7 +56,12 @@ const BlogContent = ({ blog }) => {
 
       {/* Markdown Content */}
       <article className="prose prose-indigo max-w-none">
-        <ReactMarkdown>{blog.content}</ReactMarkdown>
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          rehypePlugins={[rehypeHighlightWithAutoDetect]}
+        >
+          {blog.content}
+        </ReactMarkdown>
       </article>
     </div>
   );
