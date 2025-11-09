@@ -41,7 +41,7 @@ const Header = () => {
   ];
 
   return (
-    <header className="shadow-sm sticky top-0 bg-white/80 backdrop-blur-md z-50">
+    <header className="shadow-sm sticky top-0 bg-white/80 backdrop-blur-md z-50 ">
       <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
         {/* Logo */}
         <Link
