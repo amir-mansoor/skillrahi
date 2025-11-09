@@ -7,9 +7,13 @@ import ReactMarkdown from "react-markdown";
 
 import { Button } from "@/components/ui/button";
 import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
+
+const rehypeHighlightWithAutoDetect = (options) =>
+  rehypeHighlight({ ...options, detect: true });
 
 const ProjectDetailPage = ({ project }) => {
-  const { id } = useParams();
+  // const { id } = useParams();
 
   const [status, setStatus] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -30,7 +34,10 @@ const ProjectDetailPage = ({ project }) => {
       <p className="text-gray-700 mb-8">{project.description}</p>
 
       <article className="prose prose-blue max-w-none mb-10">
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          rehypePlugins={[rehypeHighlightWithAutoDetect]}
+        >
           {project.content}
         </ReactMarkdown>
       </article>
