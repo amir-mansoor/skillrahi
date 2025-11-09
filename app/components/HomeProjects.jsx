@@ -14,14 +14,12 @@ const HomeProjects = () => {
       <div className="mt-10 grid md:grid-cols-3 gap-8">
         {/* Project Card 1 */}
         <div className="bg-white shadow-md rounded-2xl p-6 hover:shadow-lg transition">
-          <h3 className="text-lg font-semibold text-gray-800">
-            Portfolio Website
-          </h3>
+          <h3 className="text-lg font-semibold text-gray-800">Url Shortener</h3>
           <p className="text-gray-600 mt-2 text-sm">
-            Create your first portfolio site using HTML & CSS.
+            Create a url Shortener in python flask.
           </p>
           <Link
-            href="/projects"
+            href="/projects/690dc58830277fc201f6be4e"
             className="inline-block mt-3 text-blue-600 font-semibold hover:underline"
           >
             View Details →
