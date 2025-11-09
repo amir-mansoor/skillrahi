@@ -32,7 +32,7 @@ const ArticlesForHero = () => {
             A curated list of the best free platforms for students.
           </p>
           <Link
-            href="/blog"
+            href="/blog/best-free-coding-resources-in-2025"
             className="inline-block mt-3 text-blue-600 font-semibold hover:underline"
           >
             Read More →
