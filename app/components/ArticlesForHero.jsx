@@ -47,7 +47,7 @@ const ArticlesForHero = () => {
             Simple ways to use ChatGPT & Notion AI to study smarter.
           </p>
           <Link
-            href="/blog"
+            href="/blog/how-to-use-ai-tools-for-studying"
             className="inline-block mt-3 text-blue-600 font-semibold hover:underline"
           >
             Read More →
