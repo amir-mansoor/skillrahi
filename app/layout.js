@@ -20,6 +20,12 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "Skill Rahi | Learn Skills and Grow with AI Tools",
   description: "Skill Rahi helps you learn digital skills, explore AI tools, and grow your career online.",
+  openGraph: {
+    title: "Skill Rahi",
+    description: "Learn new skills, explore AI tools, and grow your income online.",
+    url: "https://skillrahi.vercel.app",
+    siteName: "Skill Rahi",
+  },
 };
 
 export default function RootLayout({ children }) {
