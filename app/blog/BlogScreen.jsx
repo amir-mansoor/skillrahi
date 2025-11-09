@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Clock } from "lucide-react";
 
 export default function BlogScreen({ blogs }) {
-  console.log(blogs);
   if (blogs.length === 0)
     return (
       <div className="text-center py-20 text-gray-500">

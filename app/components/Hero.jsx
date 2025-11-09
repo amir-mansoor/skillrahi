@@ -92,7 +92,7 @@ const Hero = () => {
       </div>
 
       {/* 👥 Community Section */}
-      <div className="mt-24 text-center">
+      {/* <div className="mt-24 text-center">
         <h2 className="text-3xl font-bold text-gray-900">
           👥 Join Our Learning Community
         </h2>
@@ -106,7 +106,7 @@ const Hero = () => {
         >
           💬 Join Discord
         </Link>
-      </div>
+      </div> */}
 
       <HomeProjects />
       <ArticlesForHero />

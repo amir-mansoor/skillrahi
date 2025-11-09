@@ -17,7 +17,7 @@ const ArticlesForHero = () => {
             Step-by-step guide to setting up your first Fiverr gig.
           </p>
           <Link
-            href="/blog"
+            href="/blog/how-to-start-freelancing-as-a-student"
             className="inline-block mt-3 text-blue-600 font-semibold hover:underline"
           >
             Read More →
