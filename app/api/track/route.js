@@ -1,11 +1,29 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import View from "@/models/viewModel";
+import { parseUserAgent } from "@/lib/device";
 
-export async function POST() {
+export async function POST(req) {
   try {
     await connectDB();
-    await View.create({}); // create a new visit entry
+
+    const { timeSpent = 0 } = await req.json();
+    const userAgent = req.headers.get("user-agent") || "unknown";
+
+    const ipAddress = req.headers.get("x-forwarded-for") || "unknown";
+    const referrer = req.headers.get("referer") || "direct";
+
+    // Parse device info
+    const device = parseUserAgent(userAgent);
+
+    await View.create({
+      userAgent,
+      ipAddress,
+      referrer,
+      timeSpent,
+      device,
+    });
+
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error("Error tracking view:", err);
