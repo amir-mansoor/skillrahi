@@ -1,4 +1,3 @@
-import axios from "axios";
 import ProjectsScreen from "./ProjectsScreen";
 
 export const metadata = {

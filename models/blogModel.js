@@ -15,6 +15,7 @@ const blogSchema = new Schema(
       type: String,
       required: true,
     },
+    published: { type: String, default: "false" },
     category: {
       type: String,
       enum: [
@@ -39,4 +40,5 @@ const blogSchema = new Schema(
   { timestamps: true }
 );
 
-export default mongoose.models.Blog || mongoose.model("Blog", blogSchema);
+const Blog = mongoose.models?.Blog || mongoose.model("Blog", blogSchema);
+export default Blog;

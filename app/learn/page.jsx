@@ -1,4 +1,3 @@
-import axios from "axios";
 import LearnScreen from "./LearnScreen";
 export default async function LearnPage() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/learn`, {

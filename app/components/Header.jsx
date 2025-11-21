@@ -11,10 +11,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-// import { signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 const Header = () => {
-  // const { data: session } = useSession();
+  const { data: session } = useSession();
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const mobileMenuRef = useRef(null);
   const [menuHeight, setMenuHeight] = useState(0);
@@ -25,10 +25,10 @@ const Header = () => {
     }
   }, [mobileMenuRef, isMobileMenuOpen]);
 
-  // const handleLogout = async (e) => {
-  //   e.preventDefault();
-  //   await signOut({ callbackUrl: "/auth" });
-  // };
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    await signOut({ callbackUrl: "/auth" });
+  };
 
   const navLinks = [
     { href: "/learn", label: "Learn" },
@@ -37,7 +37,6 @@ const Header = () => {
     { href: "/blog", label: "Blog" },
     { href: "/about", label: "About" },
     { href: "/contributors", label: "Contributors" },
-    { href: "/contribute", label: "How to Contribute" },
   ];
 
   return (
@@ -97,7 +96,7 @@ const Header = () => {
         </div>
 
         {/* Auth Section */}
-        {/* <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-3">
           {session?.user ? (
             <DropdownMenu>
               <DropdownMenuTrigger>{session.user.name}</DropdownMenuTrigger>
@@ -122,7 +121,7 @@ const Header = () => {
               <Link href="/auth">Login</Link>
             </Button>
           )}
-        </div> */}
+        </div>
       </div>
 
       {/* Mobile Menu with transition */}

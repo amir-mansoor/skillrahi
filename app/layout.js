@@ -4,7 +4,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { Toaster } from "sonner";
 // import { SessionProvider } from "next-auth/react";
-// import { Providers } from "./sessionProvider";
+import { Providers } from "./sessionProvider";
 import Head from "next/head";
 import TrackView from "@/components/ui/TrackView";
 
@@ -55,12 +55,12 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <TrackView />
-        {/* <Providers> */}
-        <Toaster />
-        <Header />
-        {children}
-        <Footer />
-        {/* </Providers> */}
+        <Providers>
+          <Toaster />
+          <Header />
+          {children}
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
